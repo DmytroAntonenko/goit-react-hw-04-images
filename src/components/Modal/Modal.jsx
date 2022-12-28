@@ -1,35 +1,31 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+const Modal =({ offModal, image, imageTags }) => {
 
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+  
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.code === 'Escape') offModal();
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [ offModal ]);
 
-  handleKeyDown = event => {
-    if (event.code === 'Escape') this.props.offModal();
+  const handleBackdropClick = event => {
+    if (event.target === event.currentTarget) offModal();
   };
 
-  handleBackdropClick = event => {
-    if (event.target === event.currentTarget) this.props.offModal();
-  };
-
-  render() {
-    const { image, imageTags } = this.props;
-
-    return (
-      <div className="Overlay" onClick={this.handleBackdropClick}>
-        <div className="Modal">
-          <img src={image} alt={imageTags}/>
-        </div>
+  return (
+    <div className="Overlay" onClick={handleBackdropClick}>
+      <div className="Modal">
+        <img src={image} alt={imageTags}/>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 Modal.propTypes = {
