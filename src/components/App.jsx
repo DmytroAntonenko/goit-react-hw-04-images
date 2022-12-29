@@ -13,7 +13,6 @@ import Modal from './Modal';
 const App =() => {
   const [images, setImages] = useState([]);
   const [name, setName] = useState('');
-  // const [totalPages, setTotalPages] = useState(null);
   const [page, setPage] = useState(1);
   const [currentImage, setCurrentImage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,10 +37,13 @@ const App =() => {
         if (searchImages.length !== 12) {
           setIsloadMore(false);
         }
+        if (searchImages.length === 0) {
+          toast.warning("Нічого не знайдено. Введіть коректне значення!");
+        }
        
       } catch {
         setError('error');
-        toast.warning("Нічого не знайдено. Введіть коректне значення!");
+        // toast.warning("Нічого не знайдено. Введіть коректне значення!");
         
       } finally {
         setIsLoading(false);
